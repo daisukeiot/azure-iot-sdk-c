@@ -655,6 +655,32 @@ static int readPropertiesFromuAMQPMessage(IOTHUB_MESSAGE_HANDLE iothub_message_h
             }
         }
 
+        uamqp_message_property_value = NULL;
+
+        // Codes_SRS_UAMQP_MESSAGING_09_100: [If the uamqp message contains property `content-type`, it shall be set on IOTHUB_MESSAGE_HANDLE]
+        if (properties_get_content_type(uamqp_message_properties, &uamqp_message_property_value) == 0 && uamqp_message_property_value != NULL)
+        {
+            if (IoTHubMessage_SetContentTypeSystemProperty(iothub_message_handle, uamqp_message_property_value) != IOTHUB_MESSAGE_OK)
+            {
+                // Codes_SRS_UAMQP_MESSAGING_09_102: [If setting the `content-type` property on IOTHUB_MESSAGE_HANDLE fails, fcn-name() shall fail and return immediately.]
+                LogError("Failed to set IOTHUB_MESSAGE_HANDLE 'content-type' property.");
+                return_value = __FAILURE__;
+            }
+        }
+        
+        uamqp_message_property_value = NULL;
+
+        // Codes_SRS_UAMQP_MESSAGING_09_103: [If the uAMQP message contains property `content-encoding`, it shall be set on IOTHUB_MESSAGE_HANDLE]
+        if (properties_get_content_encoding(uamqp_message_properties, &uamqp_message_property_value) == 0 && uamqp_message_property_value != NULL)
+        {
+            if (IoTHubMessage_SetContentEncodingSystemProperty(iothub_message_handle, uamqp_message_property_value) != IOTHUB_MESSAGE_OK)
+            {
+                // Codes_SRS_UAMQP_MESSAGING_09_105: [If setting the `content-encoding` property on IOTHUB_MESSAGE_HANDLE fails, fcn-name() shall fail and return immediately.]
+                LogError("Failed to set IOTHUB_MESSAGE_HANDLE 'content-encoding' property.");
+                return_value = __FAILURE__;
+            }
+        }
+
         // Codes_SRS_UAMQP_MESSAGING_09_026: [message_create_IoTHubMessage_from_uamqp_message() shall destroy the uAMQP message properties (obtained with message_get_properties()) by calling properties_destroy().]
         properties_destroy(uamqp_message_properties);
     }

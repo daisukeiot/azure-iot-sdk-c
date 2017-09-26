@@ -446,6 +446,7 @@ static int readPropertiesFromuAMQPMessage(IOTHUB_MESSAGE_HANDLE iothub_message_h
     int result;
     PROPERTIES_HANDLE uamqp_message_properties;
     AMQP_VALUE uamqp_message_property;
+    const char* uamqp_message_property_value;
 
     // Codes_SRS_UAMQP_MESSAGING_09_008: [The uAMQP message properties shall be retrieved using message_get_properties().]
     if (message_get_properties(uamqp_message, &uamqp_message_properties) != 0)
@@ -664,7 +665,7 @@ static int readPropertiesFromuAMQPMessage(IOTHUB_MESSAGE_HANDLE iothub_message_h
             {
                 // Codes_SRS_UAMQP_MESSAGING_09_102: [If setting the `content-type` property on IOTHUB_MESSAGE_HANDLE fails, fcn-name() shall fail and return immediately.]
                 LogError("Failed to set IOTHUB_MESSAGE_HANDLE 'content-type' property.");
-                return_value = __FAILURE__;
+                result = __FAILURE__;
             }
         }
         
@@ -677,7 +678,7 @@ static int readPropertiesFromuAMQPMessage(IOTHUB_MESSAGE_HANDLE iothub_message_h
             {
                 // Codes_SRS_UAMQP_MESSAGING_09_105: [If setting the `content-encoding` property on IOTHUB_MESSAGE_HANDLE fails, fcn-name() shall fail and return immediately.]
                 LogError("Failed to set IOTHUB_MESSAGE_HANDLE 'content-encoding' property.");
-                return_value = __FAILURE__;
+                result = __FAILURE__;
             }
         }
 

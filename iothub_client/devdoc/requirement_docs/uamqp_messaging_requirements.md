@@ -44,13 +44,16 @@ Copying the AMQP-specific properties:
 **SRS_UAMQP_MESSAGING_09_023: [**If correlation-id fails to be obtained, message_create_IoTHubMessage_from_uamqp_message() shall fail and return immediately.**]**
 **SRS_UAMQP_MESSAGING_09_024: [**The correlation-id property shall be set on the IOTHUB_MESSAGE_HANDLE by calling IoTHubMessage_SetCorrelationId, passing the value read from the uAMQP message.**]**
 **SRS_UAMQP_MESSAGING_09_025: [**If IoTHubMessage_SetCorrelationId fails, message_create_IoTHubMessage_from_uamqp_message() shall fail and return immediately.**]**
-**SRS_UAMQP_MESSAGING_09_100: [**If the uamqp message contains property `content-type`, it shall be set on IOTHUB_MESSAGE_HANDLE**]**
+**SRS_UAMQP_MESSAGING_09_100: [**If the uAMQP message contains property `content-type`, it shall be set on IOTHUB_MESSAGE_HANDLE**]**
 **SRS_UAMQP_MESSAGING_09_101: [**If retrieving the `content-type` property from uAMQP message fails, message_create_IoTHubMessage_from_uamqp_message() shall fail and return immediately.**]**
 **SRS_UAMQP_MESSAGING_09_102: [**If setting the `content-type` property on IOTHUB_MESSAGE_HANDLE fails, message_create_IoTHubMessage_from_uamqp_message() shall fail and return immediately.**]**
 **SRS_UAMQP_MESSAGING_09_103: [**If the uAMQP message contains property `content-encoding`, it shall be set on IOTHUB_MESSAGE_HANDLE**]**
 **SRS_UAMQP_MESSAGING_09_104: [**If retrieving the `content-encoding` property from uAMQP message fails, message_create_IoTHubMessage_from_uamqp_message() shall fail and return immediately.**]**
 **SRS_UAMQP_MESSAGING_09_105: [**If setting the `content-encoding` property on IOTHUB_MESSAGE_HANDLE fails, message_create_IoTHubMessage_from_uamqp_message() shall fail and return immediately.**]**
 **SRS_UAMQP_MESSAGING_09_026: [**message_create_IoTHubMessage_from_uamqp_message() shall destroy the uAMQP message properties (obtained with message_get_properties()) by calling properties_destroy().**]**
+**SRS_UAMQP_MESSAGING_31_122: [**If the uAMQP message does not contain property `content-type`, it shall be skipped as it is optional**]**
+**SRS_UAMQP_MESSAGING_31_123: [**If the uAMQP message does not contain property `content-encoding`, it shall be skipped as it is optional**]
+
 
 Copying the AMQP application-properties:
 **SRS_UAMQP_MESSAGING_09_027: [**The IOTHUB_MESSAGE_HANDLE properties shall be retrieved using IoTHubMessage_Properties.**]**

@@ -449,7 +449,8 @@ static int readMessageIdFromuAQMPMessage(IOTHUB_MESSAGE_HANDLE iothub_message_ha
     // Codes_SRS_UAMQP_MESSAGING_09_010: [The message-id property shall be read from the uAMQP message by calling properties_get_message_id.]
     if (properties_get_message_id(uamqp_message_properties, &uamqp_message_property) != 0 || uamqp_message_property == NULL)
     {
-        // Codes_SRS_UAMQP_MESSAGING_09_011: [If properties_get_message_id fails, message_create_IoTHubMessage_from_uamqp_message() shall fail and return immediately.]
+        // Codes_SRS_UAMQP_MESSAGING_09_011: [If the uAMQP message does not contain property `message ID`, it shall be skipped as it is optional.]
+        result = RESULT_OK;
     }
     else
     {
@@ -562,7 +563,8 @@ static int readCorrelationIdFromuAQMPMessage(IOTHUB_MESSAGE_HANDLE iothub_messag
     // Codes_SRS_UAMQP_MESSAGING_09_018: [The correlation-id property shall be read from the uAMQP message by calling properties_get_correlation_id.]
     if (properties_get_correlation_id(uamqp_message_properties, &uamqp_message_property) != 0 || uamqp_message_property == NULL)
     {
-        // Codes_SRS_UAMQP_MESSAGING_09_019: [If properties_get_correlation_id() fails, message_create_IoTHubMessage_from_uamqp_message() shall fail and return immediately.]
+        // Codes_SRS_UAMQP_MESSAGING_09_019: [If the uAMQP message does not contain property `correlation ID`, it shall be skipped as it is optional.]
+        result = RESULT_OK;
     }
     else
     {

@@ -3,7 +3,7 @@
 
 #this is CMakeLists.txt for iothub_client_sample_device_twin
 
-if(NOT ${use_mqtt})
+if(NOT ${use_mqtt} AND NOT ${use_amqp})
     message(FATAL_ERROR "iothub_client_sample_device_twin being generated without mqtt support")
 endif()
 
@@ -27,20 +27,19 @@ include_directories(.)
 add_executable(iothub_client_sample_device_twin ${iothub_client_sample_device_twin_c_files} ${iothub_client_sample_device_twin_h_files})
 
 if(${use_amqp}) 
-	target_link_libraries(iothub_client_sample_device_twin  
-		iothub_client_amqp_transport
-		uamqp
-	)
+    target_link_libraries(iothub_client_sample_device_twin  
+        iothub_client_amqp_transport
+        uamqp
+    )
 endif()
 
 if(${use_mqtt}) 
-	target_link_libraries(iothub_client_sample_device_twin  
-		iothub_client_mqtt_transport
-		umqtt
-	)
+    target_link_libraries(iothub_client_sample_device_twin  
+        iothub_client_mqtt_transport
+    )
 endif()
 
 target_link_libraries(iothub_client_sample_device_twin  
-	aziotsharedutil
+    aziotsharedutil
     iothub_client 
 )

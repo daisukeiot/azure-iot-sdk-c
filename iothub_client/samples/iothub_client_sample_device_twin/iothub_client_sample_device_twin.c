@@ -4,18 +4,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "iothub_client.h"
-#include "iothub_message.h"
+#include "azure_c_shared_utility/crt_abstractions.h"
 #include "azure_c_shared_utility/macro_utils.h"
 #include "azure_c_shared_utility/threadapi.h"
-#include "azure_c_shared_utility/crt_abstractions.h"
 #include "azure_c_shared_utility/platform.h"
-#include "iothubtransportmqtt.h"
+#include "iothub_client.h"
+#include "iothub_client_options.h"
+#include "iothub_message.h"
 #include "iothubtransportamqp.h"
+#include "iothubtransportmqtt.h"
 
-#ifdef MBED_BUILD_TIMESTAMP
+#ifdef SET_TRUSTED_CERT_IN_SAMPLES
 #include "certs.h"
-#endif // MBED_BUILD_TIMESTAMP
+#endif // SET_TRUSTED_CERT_IN_SAMPLES
 
 DEFINE_ENUM_STRINGS(DEVICE_TWIN_UPDATE_STATE, DEVICE_TWIN_UPDATE_STATE_VALUES);
 
@@ -23,7 +24,7 @@ DEFINE_ENUM_STRINGS(DEVICE_TWIN_UPDATE_STATE, DEVICE_TWIN_UPDATE_STATE_VALUES);
 /*String containing Hostname, Device Id & Device Key in the format:                         */
 /*  "HostName=<host_name>;DeviceId=<device_id>;SharedAccessKey=<device_key>"                */
 /*  "HostName=<host_name>;DeviceId=<device_id>;SharedAccessSignature=<device_sas_token>"    */
-static const char* connectionString = "HostName=iot-sdks-test.azure-devices.net;DeviceId=ewertons-device2;SharedAccessKey=yfIId8422KUMOnDuvhDiz54rg2fQ1Hndbwd/XPh5PUo=";
+static const char* connectionString = "[device connection string]";
 
 static char msgText[1024];
 static char propText[1024];
@@ -69,15 +70,15 @@ void iothub_client_sample_device_twin_run(void)
             const char* reportedState = "{ 'device_property': 'new_value'}";
             size_t reportedStateSize = strlen(reportedState);
 
-            (void)IoTHubClient_LL_SetOption(iotHubClientHandle, "logtrace", &traceOn);
+            (void)IoTHubClient_LL_SetOption(iotHubClientHandle, OPTION_LOG_TRACE, &traceOn);
 
-#ifdef MBED_BUILD_TIMESTAMP
+#ifdef SET_TRUSTED_CERT_IN_SAMPLES
             // For mbed add the certificate information
             if (IoTHubClient_LL_SetOption(iotHubClientHandle, "TrustedCerts", certificates) != IOTHUB_CLIENT_OK)
             {
-                printf("failure to set option \"TrustedCerts\"\r\n");
+                (void)printf("failure to set option \"TrustedCerts\"\r\n");
             }
-#endif // MBED_BUILD_TIMESTAMP
+#endif // SET_TRUSTED_CERT_IN_SAMPLES
 
             // Check the return of all API calls when developing your solution. Return checks ommited for sample simplification.
 
